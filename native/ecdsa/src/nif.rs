@@ -32,10 +32,14 @@ fn verify<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let key_data = test::from_hex(key).unwrap();
     let sig_data = test::from_hex(sig).unwrap();
     let msg_data = test::from_hex(msg).unwrap();
+    let mut alg = &signature::ECDSA_P256_SHA256_FIXED;
+    if sig_data.len() > 64 {
+        alg = &signature::ECDSA_P256_SHA256_ASN1
+    }
     let key_ref = untrusted::Input::from(&key_data);
     let msg_ref = untrusted::Input::from(&msg_data);
     let sig_ref = untrusted::Input::from(&sig_data);
-    let result = signature::verify(&signature::ECDSA_P256_SHA256_FIXED, key_ref, msg_ref, sig_ref);
+    let result = signature::verify(alg, key_ref, msg_ref, sig_ref);
     Ok(result.is_ok().encode(env))
 
 }
