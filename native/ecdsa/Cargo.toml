@@ -1,0 +1,16 @@
+[package]
+name = "ecdsa"
+version = "0.1.0"
+authors = []
+
+[lib]
+name = "ecdsa"
+path = "src/nif.rs"
+crate_type = ["dylib"]
+
+[dependencies]
+rustler = "*"
+rustler_codegen = "*"
+lazy_static = "0.2"
+ring = "0.7.4"
+untrusted = "0.3.2"
