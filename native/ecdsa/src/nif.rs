@@ -36,9 +36,6 @@ fn verify<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let msg_ref = untrusted::Input::from(&msg_data);
     let sig_ref = untrusted::Input::from(&sig_data);
     let result = signature::verify(&signature::ECDSA_P256_SHA256_FIXED, key_ref, msg_ref, sig_ref);
-    match result {
-        Err(why) => panic!("{:?}", why),
-        Ok(value) => Ok(value.encode(env))
-    }
+    Ok(result.is_ok().encode(env))
 
 }
